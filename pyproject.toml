@@ -1,0 +1,38 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "mpv-whisper"
+version = "0.1.0"
+description = "Enhances a local MPV instance with Whisper transcription capabilities"
+authors = ["Alex Koay <alexkoay88@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+faster-whisper = "^1.0.1"
+more_itertools = "^10.2.0"
+numpy = "^1.26.4"
+pyav = "^12.0.4"
+python_mpv_jsonipc = "^1.2.0"
+attrs = "^23.2.0"
+cattrs = "^23.2.3"
+toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.0"
+mypy = "^1.8.0"
+pyright = "^1.1.352"
+
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "PL"]
+ignore = []
+
+
+[tool.pyright]
+pythonVersion = "3.9"
