@@ -8,6 +8,16 @@ version = "0.1.0"
 description = "Enhances a local MPV instance with Whisper transcription capabilities"
 authors = ["Alex Koay <alexkoay88@gmail.com>"]
 readme = "README.md"
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: MIT License",
+	"Operating System :: OS Independent",
+]
+repository = "https://github.com/alexkoay/mpv-whisper"
+
+[tool.poetry.scripts]
+mpv-whisper = 'mpv_whisper:__main__'
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
