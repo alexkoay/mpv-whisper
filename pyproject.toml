@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "mpv-whisper"
-version = "0.1.0"
+version = "0.1.1"
 description = "Enhances a local MPV instance with Whisper transcription capabilities"
 authors = ["Alex Koay <alexkoay88@gmail.com>"]
 readme = "README.md"
@@ -16,7 +16,7 @@ classifiers = [
 repository = "https://github.com/alexkoay/mpv-whisper"
 
 [tool.poetry.scripts]
-mpv-whisper = 'mpv_whisper:__main__'
+mpv-whisper = 'mpv_whisper.cli:cli'
 
 
 [tool.poetry.dependencies]
