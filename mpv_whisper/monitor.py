@@ -94,9 +94,6 @@ class MPVMonitor:
 
     def cancel(self, event_data: Any = None):
         self.event.set()
-        if self.thread:
-            self.thread.join()
-        self.thread = None
 
     ## mainloop
 
