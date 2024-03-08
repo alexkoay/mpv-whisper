@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "mpv-whisper"
-version = "0.1.1"
+version = "0.1.2"
 description = "Enhances a local MPV instance with Whisper transcription capabilities"
 authors = ["Alex Koay <alexkoay88@gmail.com>"]
 readme = "README.md"
