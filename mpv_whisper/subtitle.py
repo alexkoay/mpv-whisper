@@ -11,7 +11,7 @@ def to_time_format(pos: float):
 
 
 class SRTFile:
-    def __init__(self, path: pathlib.Path[str], clear: bool = True):
+    def __init__(self, path: pathlib.Path, clear: bool = True):
         self.path = path
         self.handle: Optional[TextIO] = None
         self.count = 0
