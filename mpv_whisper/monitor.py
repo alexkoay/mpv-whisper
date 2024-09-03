@@ -1,15 +1,13 @@
 import pathlib
-import time
 from concurrent.futures.thread import ThreadPoolExecutor
 from threading import Event
 from typing import Any, Optional
 
 from python_mpv_jsonipc import MPV, MPVError
 
-from .audio import generate_chunks
 from .config import Config, get_config
-from .subtitle import SRTFile, to_time_format
-from .transcribe import whisper_chunk
+from .coreloop import core_loop
+from .subtitle import SRTFile
 
 
 def simple_unstructure(arg: Any) -> Any:
@@ -86,9 +84,9 @@ class MPVMonitor:
         self.event = Event()
         self.pool.submit(
             self.handle_path,
-            cancel=self.event,
             path=path,
             position=position,
+            cancel=self.event,
             language=None,
         )
 
@@ -99,44 +97,21 @@ class MPVMonitor:
 
     def handle_path(
         self,
+        *,
         cancel: Event,
         path: str,
         position: float,
         language: Optional[str] = None,
     ):
-        config = get_config()
-
-        subtitle = SRTFile(config.subtitle.get_subtitle(path))
-        subtitle.clear()
-        self.command("sub-add", subtitle.path)
-
-        print("whispering", path)
-        self.command("show-text", f"whispering {path}")
-
-        if not language and config.task.language:
-            language = config.task.language
-
-        for chunk, start in generate_chunks(path, position, config.task.chunk_duration):
-            if cancel.is_set():
-                break
-
-            print(f"working: {to_time_format(start)}")
-            begin = time.time()
-            segments, language = whisper_chunk(chunk, language)
-            print("got segments")
-            with subtitle.open("a"):
-                for segment in segments:
-                    print(segment)
-                    subtitle.write(
-                        start + segment.start,
-                        start + segment.end,
-                        segment.text,
-                    )
-            duration = time.time() - begin
-            print(f"progress: {to_time_format(start)} ({duration:.2f}s)")
-            self.command("sub-reload")
-        else:
-            print("completed whisper for", path)
-            self.command("show-text", f"completed whisper for {path}")
-
-        print("ending whisper for", path)
+        for progress in core_loop(
+            path=path,
+            position=position,
+            language=language,
+            cancel=cancel,
+        ):
+            if isinstance(progress, SRTFile):
+                self.command("sub-add", progress.path)
+            elif progress is True:
+                self.command("show-text", f"completed whisper for {path}")
+            else:
+                self.command("sub-reload")
