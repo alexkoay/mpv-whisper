@@ -1,3 +1,4 @@
+import logging
 import os.path
 import pathlib
 from functools import cache
@@ -53,7 +54,7 @@ class MpvConfig:
 @dataclass(kw_only=True)
 class SubtitleConfig:
     path: pathlib.Path = field(
-        default="~/.config/mpv-whisper/subs",
+        default=pathlib.Path("~/.config/mpv-whisper/subs"),
         converter=ensure_path,
     )
     only_network: bool = False
@@ -78,8 +79,8 @@ def load_config_paths(*paths: pathlib.Path):
         if not p.exists():
             continue
 
-        print(f"using configuration from {p}")
-        raw: Any = toml.load(p)
+        logging.getLogger("config").info(f"using configuration from {p}")
+        raw: Any = toml.loads(p.read_text(encoding="utf8"))
         conv = cattrs.GenConverter(forbid_extra_keys=True)
         return conv.structure(raw, Config)
 
