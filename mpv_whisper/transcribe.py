@@ -1,4 +1,5 @@
 import itertools
+import logging
 from functools import cache
 from typing import Any, Iterable, Literal, Optional
 
@@ -7,12 +8,14 @@ from faster_whisper.transcribe import Segment
 
 from .config import get_config
 
+log = logging.getLogger("transcribe")
+
 
 @cache
 def get_model():
     config = get_config()
     model = WhisperModel(config.model.model, **config.model.args)
-    print(f"loaded whisper [{config.model.model}] with {config.model.args}")
+    log.info("loaded whisper [%s] with %s", config.model.model, config.model.args)
     return model
 
 
@@ -42,18 +45,18 @@ def whisper_chunk(
     lang = (language, 1.0) if language else None
 
     if task in ("transcribe", "both"):
-        print("transcribing")
+        log.debug("transcribing")
         segment, lang = _do_chunk("transcribe", audio, lang)
         segments.append(segment)
 
     if task in ("translate", "both"):
-        print("translating")
+        log.debug("translating")
         segment, lang = _do_chunk("translate", audio, lang)
         segments.append(segment)
 
     assert lang
     if not language and lang[1] >= get_config().transcribe.confidence_threshold:
-        print(f"Detected language '{lang[0]}' with probability {lang[1]:.5f}")
+        log.info("Detected language '%s' with probability %s", lang[0], f"{lang[1]:.5f}")
         language = lang[0]
 
     assert segments
