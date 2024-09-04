@@ -1,6 +1,6 @@
 import gc
 import itertools
-from typing import Any, BinaryIO, Iterable, Union
+from typing import Any, BinaryIO, Iterable, Iterator, Union
 
 import av
 import numpy as np
@@ -56,7 +56,7 @@ def generate_chunks(
     duration: float,
     *,
     sampling_rate: int = 16000,
-) -> Iterable[tuple[Any, float]]:
+) -> Iterator[tuple[Any, float]]:
     with av.open(input_file, mode="r", metadata_errors="ignore") as container:
         container.seek(int(start * 1_000_000))
         frames = container.decode(audio=0)
