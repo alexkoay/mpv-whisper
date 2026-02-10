@@ -1,9 +1,9 @@
 [project]
 name = "mpv-whisper"
-version = "0.2.0"
+version = "0.2.1"
 description = "Enhances a local MPV instance with Whisper transcription capabilities"
 authors = [{ name = "Alex Koay", email = "alexkoay88@gmail.com" }]
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.9"
 readme = "README.md"
 classifiers = [
 	"License :: OSI Approved :: MIT License",
@@ -17,15 +17,15 @@ classifiers = [
 	"Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-	"attrs>=23.2.0,<24",
+	"attrs>=23.2.0",
 	"av>=12.3.0",
-	"cattrs>=23.2.3,<24",
-	"click>=8.1.7,<9",
-	"faster-whisper>=1.0.1,<2",
-	"more_itertools>=10.2.0,<11",
-	"numpy>=1.26.4,<2",
-	"python_mpv_jsonipc>=1.2.0,<2",
-	"toml>=0.10.2,<0.11",
+	"cattrs>=23.2.3",
+	"click>=8.1.7",
+	"faster-whisper>=1.0.1",
+	"more_itertools>=10.2.0",
+	"numpy>2.0.0",
+	"python_mpv_jsonipc>=1.2.0",
+	"toml>=0.10.2",
 ]
 
 	[project.urls]
