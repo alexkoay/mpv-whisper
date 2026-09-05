@@ -6,8 +6,11 @@ from typing import Optional
 
 
 def setup_cublas_path():
-    spec = importlib.util.find_spec("nvidia.cublas")
-    if spec is None:
+    try:
+        spec = importlib.util.find_spec("nvidia.cublas")
+        if spec is None:
+            return
+    except ModuleNotFoundError:
         return
 
     pkg_dir: Optional[str] = None
