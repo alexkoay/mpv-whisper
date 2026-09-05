@@ -11,10 +11,11 @@ def to_time_format(pos: float):
 
 
 class SRTFile:
-    def __init__(self, path: pathlib.Path, clear: bool = True):
+    def __init__(self, path: pathlib.Path, clear: bool = False):
         self.path = path
         self.handle: Optional[TextIO] = None
         self.count = 0
+        self.last = 0
 
         if clear:
             self.clear()
@@ -27,6 +28,9 @@ class SRTFile:
         assert self.handle
         self.handle.close()
         self.handle = None
+
+    def is_complete(self):
+        return self.path.exists() and "completed by mpv-whisper" in self.path.read_text("utf-8")
 
     def open(self, mode: Literal["a", "w"] = "a"):
         assert not self.handle
@@ -49,3 +53,7 @@ class SRTFile:
         end_str = to_time_format(end)
         self.handle.write(f"{self.count}\n{start_str} --> {end_str}\n{text}\n\n")
         self.count += 1
+        self.last = end
+
+    def complete(self):
+        self.write(self.last, self.last + 5, "completed by mpv-whisper")

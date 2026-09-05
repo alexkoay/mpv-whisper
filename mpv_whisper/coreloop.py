@@ -23,6 +23,12 @@ def core_loop(
         config = get_config()
 
         subtitle = SRTFile(config.subtitle.get_subtitle(path), clear=False)
+        if subtitle.is_complete():
+            log.info("found completed whisper for %s", path)
+            yield subtitle
+            yield True
+            return
+
         subtitle.clear()
         yield subtitle
 
