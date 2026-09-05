@@ -5,6 +5,7 @@ import click
 
 from .coreloop import core_loop
 from .monitor import MPVMonitor
+from .setup import setup_cublas_path
 from .subtitle import SRTFile
 from .transcribe import get_model
 
@@ -15,6 +16,7 @@ from .transcribe import get_model
 def cli(path: Optional[str], loglevel: str):
     logging.basicConfig(level=loglevel)
     logging.getLogger("faster_whisper").disabled = True
+    setup_cublas_path()
     get_model()
     monitor = MPVMonitor()
     if path:

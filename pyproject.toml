@@ -35,6 +35,11 @@ dependencies = [
 	mpv-whisper = "mpv_whisper.cli:cli"
 	mpv-whisper-direct = "mpv_whisper.cli:direct"
 
+[project.optional-dependencies]
+cuda = [
+    "nvidia-cublas-cu12>=12.9.2.10",
+]
+
 [dependency-groups]
 dev = [
 	"mypy>=1.8.0,<2",
