@@ -1,6 +1,6 @@
 [project]
 name = "mpv-whisper"
-version = "0.2.1"
+version = "0.3.0"
 description = "Enhances a local MPV instance with Whisper transcription capabilities"
 authors = [{ name = "Alex Koay", email = "alexkoay88@gmail.com" }]
 requires-python = ">=3.9"
