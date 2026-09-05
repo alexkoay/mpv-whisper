@@ -37,10 +37,9 @@ def _do_chunk(
 def whisper_chunk(
     audio: Any,
     language: Optional[str] = None,
-    task: Literal[
-        "transcribe", "translate", "both"
-    ] = get_config().transcribe.foreign_lang_behaviour,
+    task: Literal["transcribe", "translate", "both", None] = None,
 ):
+    task = task or get_config().transcribe.foreign_lang_behaviour
     segments: list[Iterable[Segment]] = []
     lang = (language, 1.0) if language else None
 
